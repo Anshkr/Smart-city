@@ -2,17 +2,17 @@
 
 ### An End-to-End Data Engineering and Business Intelligence Project
 
-**Transforming environmental data into actionable insights for smarter, healthier cities.**
+**Transforming environmental data into meaningful insights for smarter, healthier cities.**
 
 ---
 
 ## 📌 Project Overview
 
-Smart City Pollution Intelligence is an end-to-end data engineering and business intelligence project designed to collect, process, analyze, and visualize air pollution and weather-related data across six major Indian metropolitan cities.
+Smart City Pollution Intelligence is an end-to-end data engineering and business intelligence project developed to collect, process, analyze, and visualize air pollution and weather-related data across six major Indian metropolitan cities.
 
-The project integrates environmental data from multiple APIs, processes it using **Azure Databricks**, organizes it through a **Medallion Architecture (Bronze, Silver, and Gold)**, and presents meaningful insights through an interactive **Power BI dashboard**.
+The project integrates environmental data from multiple APIs, uses **Google Drive** as part of the data ingestion workflow, processes datasets using **Azure Databricks**, organizes data through a **Medallion Architecture (Bronze, Silver, and Gold)**, and presents analytical insights through an interactive **Power BI dashboard**.
 
-The solution helps users explore pollution patterns, compare air quality across cities, identify pollution hotspots, and understand pollutant trends.
+The solution enables users to explore pollution patterns, compare air quality across cities, identify pollution hotspots, and understand pollutant trends.
 
 ### 🌍 Cities Covered
 
@@ -27,13 +27,14 @@ The solution helps users explore pollution patterns, compare air quality across 
 
 ## 🎯 Project Objectives
 
-- Collect real-world air quality and weather data from external APIs.
-- Build an automated and structured data ingestion workflow.
+- Collect environmental data from multiple external APIs.
+- Use Google Drive as part of the data ingestion workflow.
+- Build a structured data ingestion process using Databricks.
 - Store raw data using Databricks Unity Catalog Volumes.
 - Implement Bronze, Silver, and Gold data layers.
 - Clean, transform, and organize environmental datasets.
 - Develop analytical tables for city-level pollution analysis.
-- Build a Databricks Declarative ETL Pipeline.
+- Implement a Databricks Declarative ETL Pipeline.
 - Connect processed data to Power BI.
 - Create interactive dashboards for pollution monitoring and comparison.
 
@@ -43,41 +44,45 @@ The solution helps users explore pollution patterns, compare air quality across 
 
 The project follows an end-to-end data pipeline, from external data collection to business intelligence reporting.
 
+### Architecture Diagram
+
 ```mermaid
 flowchart TD
     A["Open-Meteo Air Quality API"]
     B["Open-Meteo Weather API"]
     C["NASA POWER API"]
 
-    A --> D["API Data Extraction"]
+    A --> D["Data Collection"]
     B --> D
     C --> D
 
-    D --> E["Databricks"]
-    E --> F["Unity Catalog Volume"]
-    F --> G["Bronze Layer"]
+    D --> E["Google Drive"]
+    E --> F["Databricks Ingestion Pipeline"]
+    F --> G["Unity Catalog / Raw Data Volume"]
 
-    G --> H["Silver Layer"]
-    H --> I["Gold Layer"]
+    G --> H["Bronze Layer"]
+    H --> I["Silver Layer"]
+    I --> J["Gold Layer"]
 
-    I --> J["Databricks SQL Warehouse"]
-    J --> K["Power BI Dashboard"]
+    J --> K["Databricks SQL Warehouse"]
+    K --> L["Power BI Dashboard"]
 
-    K --> L["City Overview"]
-    K --> M["Pollution Hotspots"]
-    K --> N["Pollutant Trends"]
+    L --> M["City Overview"]
+    L --> N["Pollution Hotspots"]
+    L --> O["Pollutant Trends"]
 ```
 
 ### 🔄 Data Flow
 
 1. **Data Collection:** Environmental data is retrieved from Open-Meteo and NASA POWER APIs.
-2. **Data Ingestion:** Python-based workflows collect and organize the API responses.
-3. **Data Storage:** Raw data is stored in Databricks Unity Catalog Volumes.
-4. **Bronze Layer:** Raw ingested datasets are maintained in Bronze tables.
-5. **Silver Layer:** Data is cleaned, structured, and prepared for analysis.
-6. **Gold Layer:** Analytical datasets are created for reporting and visualization.
-7. **ETL Pipeline:** A Databricks Declarative ETL Pipeline manages the configured data transformation workflow.
-8. **Visualization:** Power BI connects to Databricks SQL Warehouse to display interactive reports.
+2. **File Storage:** Google Drive is used as part of the ingestion workflow to store and organize source data files.
+3. **Data Ingestion:** Databricks ingests the configured source data through the project's ingestion workflow.
+4. **Data Storage:** Raw data is stored in Databricks Unity Catalog Volumes.
+5. **Bronze Layer:** Raw ingested datasets are maintained in Bronze tables.
+6. **Silver Layer:** Data is cleaned, structured, and prepared for analysis.
+7. **Gold Layer:** Analytical datasets are created for reporting and visualization.
+8. **ETL Processing:** The Databricks Declarative ETL Pipeline manages the configured transformation workflow.
+9. **Visualization:** Power BI connects to Databricks SQL Warehouse to display interactive reports.
 
 ---
 
@@ -86,10 +91,12 @@ flowchart TD
 | Technology | Purpose |
 |---|---|
 | Python | API integration and data processing |
+| Open-Meteo API | Air quality and weather data collection |
+| NASA POWER API | Environmental and meteorological data |
+| Google Drive | Source file storage and ingestion workflow |
 | Azure Databricks | Data engineering and processing |
 | Databricks Unity Catalog | Data governance and organization |
 | Databricks Volumes | Raw data storage |
-| Google Drive | Data storage for ingestion |
 | Delta Tables | Structured data storage |
 | Declarative ETL Pipeline | Data transformation workflow |
 | Databricks SQL Warehouse | Analytical data access |
@@ -137,6 +144,29 @@ Documentation: https://power.larc.nasa.gov/
 
 ---
 
+## ☁️ Google Drive Integration
+
+Google Drive is used as part of the project's data ingestion workflow to store and organize source data files before their ingestion into the Databricks environment.
+
+### Role of Google Drive
+
+- Provides a location for storing source data files.
+- Helps organize files used in the ingestion workflow.
+- Acts as part of the data flow between source data collection and Databricks processing.
+- Supports the availability of source files for downstream ingestion.
+
+### Google Drive Ingestion Workflow
+
+1. Environmental data is collected from the configured data sources.
+2. Source data files are stored and organized in Google Drive.
+3. The Databricks ingestion workflow accesses the configured source files.
+4. Data is ingested into the Databricks environment.
+5. The ingested data proceeds through the Bronze, Silver, and Gold layers.
+
+**Note:** Google Drive is part of the ingestion workflow. It is distinct from the Databricks Unity Catalog Volume used for raw data storage.
+
+---
+
 ## 🧱 Data Engineering: Medallion Architecture
 
 The project uses a three-layer Medallion Architecture to organize data processing.
@@ -160,7 +190,7 @@ The Bronze layer stores the ingested environmental datasets.
 
 The Silver layer contains processed and structured datasets.
 
-**Pipeline output tables:**
+**Declarative ETL Pipeline output tables:**
 
 - `smart_city.pollution_etl.silver_air_quality`
 - `smart_city.pollution_etl.silver_weather`
@@ -175,7 +205,7 @@ The Silver layer contains processed and structured datasets.
 
 The Gold layer contains datasets designed for reporting and business intelligence.
 
-**Pipeline output tables:**
+**Declarative ETL Pipeline output tables:**
 
 - `smart_city.pollution_etl.gold_city_daily`
 - `smart_city.pollution_etl.gold_pollution_hotspots`
@@ -187,7 +217,7 @@ The Gold layer contains datasets designed for reporting and business intelligenc
 - Support pollutant trend visualization.
 - Provide analytical data for Power BI.
 
-> **Note:** The project also contains notebook-generated Silver and Gold tables under `smart_city.pollution`. These are separate from the Declarative ETL Pipeline outputs under `smart_city.pollution_etl`.
+> **Important:** Notebook-generated Silver and Gold tables are maintained under `smart_city.pollution`. They are separate from the Declarative ETL Pipeline output tables maintained under `smart_city.pollution_etl`.
 
 ---
 
@@ -204,7 +234,7 @@ The project uses the following Unity Catalog structure:
 | Raw Data Volume | `/Volumes/smart_city/pollution/raw_data` |
 | ETL Output Schema | `smart_city.pollution_etl` |
 
-### Declarative ETL Pipeline
+### Databricks Declarative ETL Pipeline
 
 **Pipeline Name:** `Smart_city_capstone`
 
@@ -215,6 +245,18 @@ The project uses the following Unity Catalog structure:
 The pipeline is configured to process environmental datasets and generate Silver and Gold output tables.
 
 The pipeline execution was successfully completed during project implementation.
+
+### Pipeline Output Tables
+
+**Silver:**
+- `silver_air_quality`
+- `silver_weather`
+- `silver_nasa_power`
+
+**Gold:**
+- `gold_city_daily`
+- `gold_pollution_hotspots`
+- `gold_pollutant_trends`
 
 ---
 
@@ -260,21 +302,25 @@ Provides a view of pollutant behavior over time.
 
 ### 📷 Dashboard Preview
 
-Add your actual Power BI screenshots below after uploading them to the repository.
+Add your actual Power BI screenshots to the repository and update the image paths below.
 
-| City Overview | Pollution Hotspots |
-|---|---|
-| Add screenshot here | Add screenshot here |
+**City Overview**
 
-| Pollutant Trends |
-|---|
-| Add screenshot here |
+![City Overview](PowerBI/Dashboard_Screenshots/City_Overview.png)
+
+**Pollution Hotspots**
+
+![Pollution Hotspots](PowerBI/Dashboard_Screenshots/Pollution_Hotspots.png)
+
+**Pollutant Trends**
+
+![Pollutant Trends](PowerBI/Dashboard_Screenshots/Pollutant_Trends.png)
 
 ---
 
 ## 📐 DAX Measures
 
-The Power BI report includes the following DAX measures:
+The Power BI report includes the following ten DAX measures:
 
 1. Average PM2.5
 2. Average PM10
@@ -327,7 +373,7 @@ Smart-City-Pollution-Intelligence/
     └── Gold_Tables.png
 ```
 
-*The filenames above represent the recommended repository organization. Update them to match the actual files uploaded.*
+*The filenames represent the recommended repository organization. Update them to match the actual files uploaded.*
 
 ---
 
@@ -339,6 +385,7 @@ Smart-City-Pollution-Intelligence/
 - An Azure Databricks workspace
 - Access to Databricks Unity Catalog
 - Databricks SQL Warehouse access
+- Google Drive access to the configured source files
 - Power BI Desktop
 - Git and GitHub
 
@@ -352,9 +399,13 @@ git clone https://github.com/YOUR_USERNAME/Smart-City-Pollution-Intelligence.git
 
 Import the notebooks from the `Databricks/` directory into your Databricks workspace.
 
-Configure the required API parameters and storage locations according to your workspace.
+Configure the required API parameters, source file locations, and storage settings according to your environment.
 
-### Step 3: Configure Data Storage
+### Step 3: Configure Google Drive
+
+Ensure the required source files are available in the configured Google Drive location and that the ingestion workflow has the necessary access.
+
+### Step 4: Configure Databricks Storage
 
 Ensure the Unity Catalog catalog, schema, and volume are available:
 
@@ -364,13 +415,13 @@ Schema: pollution
 Volume: raw_data
 ```
 
-### Step 4: Execute the Data Workflow
+### Step 5: Execute the Data Workflow
 
-Run the data ingestion and transformation notebooks in the appropriate order.
+Run the data ingestion and transformation notebooks or configured pipeline workflow in the appropriate order.
 
 Review the Bronze, Silver, and Gold datasets after execution.
 
-### Step 5: Review the ETL Pipeline
+### Step 6: Review the ETL Pipeline
 
 Open the Databricks Declarative ETL Pipeline named:
 
@@ -380,7 +431,7 @@ Smart_city_capstone
 
 Review its execution status, data flow graph, and output tables.
 
-### Step 6: Open the Power BI Dashboard
+### Step 7: Open the Power BI Dashboard
 
 Open the `.pbix` file from the `PowerBI/` directory.
 
@@ -392,10 +443,11 @@ Configure the Databricks connection and required credentials to access the analy
 
 The project demonstrates an end-to-end implementation of an environmental data analytics workflow.
 
-Key deliverables include:
+**Key deliverables include:**
 
 - Integration of three environmental data sources.
 - Coverage of six major Indian cities.
+- Google Drive integration in the data ingestion workflow.
 - Databricks-based data ingestion and processing.
 - Unity Catalog-based data organization.
 - Bronze, Silver, and Gold data layers.
@@ -413,6 +465,7 @@ Key deliverables include:
 - Environmental measurements should be interpreted with their source, units, timestamps, and measurement context.
 - The dashboard provides analytical insights and is not a substitute for official regulatory air-quality monitoring.
 - Actual pollution rankings and conclusions should be based on validated data from the executed datasets.
+- Google Drive file availability and access permissions may affect ingestion.
 
 ---
 
@@ -434,13 +487,17 @@ Potential improvements include:
 
 ## 👥 Team
 
-**Project:** Smart City Pollution Intelligence
+**Project Name:** Smart City Pollution Intelligence
+
+**Project Type:** Academic Capstone Project
 
 **Team Size:** 3 Members
 
-This project combines data engineering, environmental data analysis, and business intelligence to demonstrate how cloud-based data platforms can support smarter environmental monitoring.
+### Team Contributions
 
-**Lead:** Ansh Kumar
+Add the actual names and responsibilities of all three team members.
+
+***Team Lead:** Ansh kumar
 
 ---
 
@@ -449,6 +506,7 @@ This project combines data engineering, environmental data analysis, and busines
 - Open-Meteo Air Quality API: https://open-meteo.com/en/docs/air-quality-api
 - Open-Meteo Weather API: https://open-meteo.com/en/docs
 - NASA POWER: https://power.larc.nasa.gov/
+- Google Drive: https://drive.google.com/
 - Databricks Documentation: https://docs.databricks.com/
 - Microsoft Power BI Documentation: https://learn.microsoft.com/en-us/power-bi/
 
@@ -456,6 +514,12 @@ This project combines data engineering, environmental data analysis, and busines
 
 ## ⭐ Acknowledgement
 
-This project was developed as an academic capstone project to demonstrate practical applications of data engineering, cloud data processing, and business intelligence in environmental monitoring.
+This project was developed as an academic capstone project to demonstrate practical applications of data engineering, cloud-based data processing, environmental data analysis, and business intelligence.
 
-**Smart City Pollution Intelligence — Turning Environmental Data into Meaningful Insights.**
+It brings together external environmental data sources, Google Drive, Databricks, and Power BI to demonstrate how data-driven solutions can support environmental monitoring and smarter cities.
+
+---
+
+### 🌱 Smart City Pollution Intelligence
+
+**Turning Environmental Data into Meaningful Insights.**
