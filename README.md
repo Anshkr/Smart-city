@@ -89,6 +89,7 @@ flowchart TD
 | Azure Databricks | Data engineering and processing |
 | Databricks Unity Catalog | Data governance and organization |
 | Databricks Volumes | Raw data storage |
+| Google Drive | Data storage for ingestion |
 | Delta Tables | Structured data storage |
 | Declarative ETL Pipeline | Data transformation workflow |
 | Databricks SQL Warehouse | Analytical data access |
