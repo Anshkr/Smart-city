@@ -362,7 +362,6 @@ Smart-City-Pollution-Intelligence/
 │   └── Smart_City_Pollution_Intelligence_Presentation.pptx
 │
 ├── Documentation/
-│   ├── Project_Report.pdf
 │   ├── Architecture.png
 │   └── Data_Sources.md
 │
