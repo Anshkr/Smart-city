@@ -496,7 +496,7 @@ Potential improvements include:
 
 Add the actual names and responsibilities of all three team members.
 
-***Team Lead:** Ansh kumar
+**Team Lead:** **Ansh kumar**
 
 ---
 
